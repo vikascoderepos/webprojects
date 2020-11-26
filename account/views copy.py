@@ -8,26 +8,6 @@ from .forms import LoginForm, UserRegistrationForm, \
                    UserEditForm, ProfileEditForm
 
 
-from django.shortcuts import get_object_or_404
-from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.authentication import BasicAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import viewsets
-from rest_framework.decorators import action
-from .models import Profile
-from django.contrib.auth.models import User
-from .serializers import ProfileSerializer
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-
-class ProfileAPI(APIView):
-    def get(self, request, *args, **kwargs):
-        user = get_object_or_404(User, pk=kwargs['user_id'])
-        profile_serializer = ProfileSerializer(user.profile)
-        return Response(profile_serializer.data)
-
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -50,30 +30,12 @@ def user_login(request):
     return render(request, 'account/login.html', {'form': form})
 
 
-# @login_required
-# def dashboard(request):
-#     return render(request,
-#                   'account/dashboard.html',
-#                   {'section': 'dashboard'})
-
 @login_required
 def dashboard(request):
-    profiles = Profile.objects.filter(is_teacher=True)
-    page = request.GET.get('page', 1)
-
-    paginator = Paginator(profiles, 10)
-    try:
-        profiles = paginator.page(page)
-    except PageNotAnInteger:
-        profiles = paginator.page(1)
-    except EmptyPage:
-        profiles = paginator.page(paginator.num_pages)
-    context = {
-        'profiles': profiles
-    }
     return render(request,
-                  'account/dashboard.html',context
-                  )
+                  'account/dashboard.html',
+                  {'section': 'dashboard'})
+
 
 def register(request):
     if request.method == 'POST':

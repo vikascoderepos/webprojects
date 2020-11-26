@@ -3,6 +3,45 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-  <h1>Dashboard</h1>
+  <h1>Profiles</h1>
+  <div class="row">
+  {% for profile in profiles %}
+      <div class="col-md-4">
+          <div class="card mb-2">
+              <img class="card-img-top" src="/media/{{ profile.photo }}">
+              <div class="card-body">
+                  <h5 class="card-title">{{ profile.user }}</h5>
+                  <p class="card-text">{{ profile.bio }}</p>
+                  <a href="#"
+                     class="btn btn-primary">
+                      Find More
+                  </a>
+              </div>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
+  {% if profiles.has_other_pages %}
+  <ul class="pagination">
+    {% if profiles.has_previous %}
+      <li><a href="?page={{ profiles.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in profiles.paginator.page_range %}
+      {% if profiles.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if profiles.has_next %}
+      <li><a href="?page={{ profiles.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
   <p>Welcome to your dashboard. You can <a href="{% url "edit" %}">edit your profile</a> or <a href="{% url "password_change" %}">change your password</a>.</p>
 {% endblock %}
