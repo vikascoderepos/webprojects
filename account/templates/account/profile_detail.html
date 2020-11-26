@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+  <h1>{{ profile.user }}</h1>
+  <div class="row">
+    <div class="col-md-8">
+        <img src="/media/{{ profile.photo }}" style="width: auto; height: 500px;" alt="{{ profile.user }}" width="100%">
+    </div>
+    <div class="col-md-4">
+        <h5>About the Teacher:</h5>
+        <p>{{ profile.bio }}</p>
+        <br>
+        <h5>Gender:</h5>
+        <p>{{ profile.gender }}</p>
+        <h5>City:</h5>
+        <p>{{ profile.city }}</p>
+        <h5>State</h5>
+        <p>{{ profile.state }}</p>
+        <h5>Zipcode</h5>
+        <p>{{ profile.zip_code }}</p>
+        <h5>Phone Number</h5>
+        <p>{{ profile.phone_number }}</p>
+    </div>
+</div>
+
+  {% endblock %}
+  

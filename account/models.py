@@ -4,6 +4,7 @@ from django.utils.timezone import now
 from phonenumber_field.modelfields import PhoneNumberField
 from localflavor.us.us_states import STATE_CHOICES
 from localflavor.us.models import  USStateField
+from django.urls import reverse
 
 
 
@@ -27,3 +28,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'Profile for user {self.user.username}'
+
+    def get_absolute_url(self):
+        return reverse('profile_detail', args=[str(self.id)])

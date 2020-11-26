@@ -120,3 +120,26 @@ def edit(request):
                   'account/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
+
+
+
+
+@login_required
+def profile_detail(request, pk):
+    profile = Profile.objects.get(id=pk)
+    context = {
+        'profile': profile
+    }
+    return render(request, 'account/profile_detail.html', context)
+
+
+
+
+@login_required
+def about_view(request):
+    return render(request, 'account/about.html')
+
+
+@login_required
+def contact_view(request):
+    return render(request, 'account/contact.html')

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
@@ -8,11 +8,11 @@
   {% for profile in profiles %}
       <div class="col-md-4">
           <div class="card mb-2">
-              <img class="card-img-top" src="/media/{{ profile.photo }}">
+              <img class="card-img-top" src="/media/{{ profile.photo }}" class="img-fluid img-thumbnail">
               <div class="card-body">
                   <h5 class="card-title">{{ profile.user }}</h5>
                   <p class="card-text">{{ profile.bio }}</p>
-                  <a href="#"
+                  <a href="{% url 'profile_detail' profile.pk %}"
                      class="btn btn-primary">
                       Find More
                   </a>
