@@ -51,6 +51,9 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework',
     'django.contrib.sitemaps',
+    'cart.apps.CartConfig',
+    'orders.apps.OrdersConfig',
+    'payment.apps.PaymentConfig',
 
 ]
 
@@ -78,6 +81,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processors.cart',
+
             ],
         },
     },
@@ -151,6 +156,7 @@ STATICFILES_DIRS = (
 #STATIC_URL = '/static/'
 STATIC_URL = '/home/vikas/webprojects/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = '/home/vikas/webprojects/static2/'
 
 # MEDIA/UPLOADS
 MEDIA_URL = '/media/'
@@ -189,6 +195,20 @@ ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: reverse_lazy('user_detail',
                                         args=[u.username])
 }
+
+
+CART_SESSION_ID='cart'
+
+BRAINTREE_MERCHANT_ID = os.getenv('BRAINTREE_MERCHANT_ID')
+BRAINTREE_PUBLIC_KEY = os.getenv('BRAINTREE_PUBLIC_KEY')
+BRAINTREE_PRIVATE_KEY = os.getenv('BRAINTREE_PRIVATE_KEY')
+import braintree
+
+BRAINTREE_CONF = braintree.Configuration(braintree.Environment.Sandbox,
+    BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY,
+    BRAINTREE_PRIVATE_KEY
+)
 
 
 

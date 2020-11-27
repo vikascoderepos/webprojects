@@ -25,6 +25,11 @@ class Profile(models.Model):
     created_date = models.DateTimeField(default=now, editable=False)
     is_parent = models.BooleanField(choices=BOOL_CHOICES, default=True)
     is_teacher = models.BooleanField(choices=BOOL_CHOICES, default=False)
+    class Meta:
+        ordering = ('zip_code',)
+        verbose_name = 'profile'
+        verbose_name_plural = 'profiles'
+
 
     def __str__(self):
         return f'Profile for user {self.user.username}'

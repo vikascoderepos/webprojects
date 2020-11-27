@@ -24,10 +24,14 @@ sitemaps = {
 urlpatterns = [
     path('account/', include('account.urls')),
     path('admin/', admin.site.urls),
+    path('cart/', include('cart.urls', namespace='cart')),
     path('social-auth/', include('social_django.urls', namespace='social')),
     path('', include('account.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
-     name='django.contrib.sitemaps.views.sitemap')
+     name='django.contrib.sitemaps.views.sitemap'),
+    path('orders/', include('orders.urls', namespace='orders')),
+    path('payment/', include('payment.urls', namespace='payment')),
+
 ]
 
 if settings.DEBUG:

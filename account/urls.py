@@ -19,8 +19,6 @@ urlpatterns = [
     path("contact/", views.contact_view, name="contact_view"),
     path("about/", views.about_view, name="about_view"),
     #path('api/users/<user_id>/profile/', ProfileAPI.as_view())
-    #path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
-    #name='django.contrib.sitemaps.views.sitemap'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

@@ -1,3 +1,4 @@
+from cart.forms import CartAddProfileForm
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
@@ -127,12 +128,18 @@ def edit(request):
 @login_required
 def profile_detail(request, pk):
     profile = Profile.objects.get(id=pk)
+    cart_profile_form = CartAddProfileForm()
     context = {
         'profile': profile
     }
-    return render(request, 'account/profile_detail.html', context)
+    # return render(request, 'account/profile_detail.html', context, 
+    #             'cart_profile_form': cart_profile_form)
 
 
+    return render(request,
+                  'account/profile_detail.html',
+                  {'profile': profile,
+                   'cart_profile_form': cart_profile_form})
 
 
 @login_required

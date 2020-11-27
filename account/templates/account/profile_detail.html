@@ -21,6 +21,16 @@
         <p>{{ profile.zip_code }}</p>
         <h5>Phone Number</h5>
         <p>{{ profile.phone_number }}</p>
+
+        <p class="price">2000</p>
+        <form action="{% url "cart:cart_add" profile.id %}" method="post">
+          {{ cart_profile_form }}
+          {% csrf_token %}
+          <input type="submit" value="Add to cart">
+        </form>
+        {{ profile.user|linebreaks }}	
+        
+
     </div>
 </div>
 
