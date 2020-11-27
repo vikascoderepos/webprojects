@@ -18,7 +18,12 @@ urlpatterns = [
     path("account/<int:pk>/", views.profile_detail, name="profile_detail"),
     path("contact/", views.contact_view, name="contact_view"),
     path("about/", views.about_view, name="about_view"),
-    #path('api/users/<user_id>/profile/', ProfileAPI.as_view())
+    path('api/profiles/',
+         views.ProfileListView.as_view(),
+         name='profile_api_list'),
+    path('api/profile/<pk>/',
+         views.ProfileDetailView.as_view(),
+         name='profile_api_detail'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

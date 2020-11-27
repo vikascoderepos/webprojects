@@ -23,11 +23,23 @@ from .serializers import ProfileSerializer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
-class ProfileAPI(APIView):
-    def get(self, request, *args, **kwargs):
-        user = get_object_or_404(User, pk=kwargs['user_id'])
-        profile_serializer = ProfileSerializer(user.profile)
-        return Response(profile_serializer.data)
+class ProfileListView(generics.ListAPIView):
+    authentication_classes = (BasicAuthentication,)
+    permission_classes = (IsAuthenticated,)
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+
+
+
+
+
+
+
+	
+class ProfileDetailView(generics.RetrieveAPIView):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
 def user_login(request):
     if request.method == 'POST':
