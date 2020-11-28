@@ -8,19 +8,28 @@
 </head>
 <body>
   <div id="header">
-    <span class="logo">HomeSchooling1</span>
+    <span class="logo">HomeSchooling2</span>
     {% if request.user.is_authenticated %}
-    <ul class="menu">
-      <li {% if section == "dashboard" %}class="selected"{% endif %}>
-        <a href="{% url "dashboard" %}">My dashboard</a>
-      </li>
-      <li {% if section == "contact" %}class="selected"{% endif %}>
-        <a href="/contact">Contact</a>
-      </li>
-      <li {% if section == "about" %}class="selected"{% endif %}>
-        <a href="/about">About</a>
-      </li>
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+          <a class="navbar-brand" href="{% url 'dashboard' %}">My dashboard</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+  
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="/contact">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+            </ul>
+          </div>
+      </div>
+  
+  </nav>
   {% endif %}
   <span class="user">
     {% if request.user.is_authenticated %}

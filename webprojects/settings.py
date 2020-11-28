@@ -156,7 +156,7 @@ STATICFILES_DIRS = (
 #STATIC_URL = '/static/'
 STATIC_URL = '/home/vikas/webprojects/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-STATIC_ROOT = '/home/vikas/webprojects/static2/'
+#STATIC_ROOT = '/home/vikas/webprojects/static2/'
 
 # MEDIA/UPLOADS
 MEDIA_URL = '/media/'

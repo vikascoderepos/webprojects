@@ -21,7 +21,12 @@ from .models import Profile
 from django.contrib.auth.models import User
 from .serializers import ProfileSerializer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import Distance  
+from pyzipcode import ZipCodeDatabase
+from django.http import Http404
+import traceback
+import logging
 
 class ProfileListView(generics.ListAPIView):
     authentication_classes = (BasicAuthentication,)
@@ -69,11 +74,63 @@ def user_login(request):
 #                   'account/dashboard.html',
 #                   {'section': 'dashboard'})
 
+# @login_required
+# def dashboard(request):
+#     profiles = Profile.objects.filter(is_teacher=True)
+#     page = request.GET.get('page', 1)
+
+#     paginator = Paginator(profiles, 10)
+#     try:
+#         profiles = paginator.page(page)
+#     except PageNotAnInteger:
+#         profiles = paginator.page(1)
+#     except EmptyPage:
+#         profiles = paginator.page(paginator.num_pages)
+#     context = {
+#         'profiles': profiles
+#     }
+#     return render(request,
+#                   'account/dashboard.html',context
+#                   )
+
+# @login_required
+# def dashboard(request):
+#     zipcode = request.GET.get('zip_code')
+#     if zipcode:
+#         profiles = Profile.objects.filter(is_teacher=True, zip_code=zipcode)
+#     else:   
+#         profiles = Profile.objects.filter(is_teacher=True)
+#     page = request.GET.get('page', 1)
+#     paginator = Paginator(profiles, 10)
+#     try:
+#         profiles = paginator.page(page)
+#     except PageNotAnInteger:
+#         profiles = paginator.page(1)
+#     except EmptyPage:
+#         profiles = paginator.page(paginator.num_pages)
+#     context = {
+#         'profiles': profiles
+#     }
+#     return render(request,
+#                   'account/dashboard.html',context
+#                   )	
+
+
 @login_required
 def dashboard(request):
-    profiles = Profile.objects.filter(is_teacher=True)
-    page = request.GET.get('page', 1)
+    zipcode = request.GET.get('zip_code')
+    if zipcode:
+        zcdb = ZipCodeDatabase()
+        try:
+            profiles = Profile.objects.filter(is_teacher=True, zip_code__in=[z.zip for z in zcdb.get_zipcodes_around_radius(zipcode, 10)])
+        except Exception as e:
+            logging.error(traceback.format_exc())
+            profiles = Profile.objects.filter(phone_number=0)
 
+    # Logs the error appropriately. 
+    else:   
+        profiles = Profile.objects.filter(is_teacher=True)
+    page = request.GET.get('page', 1)
     paginator = Paginator(profiles, 10)
     try:
         profiles = paginator.page(page)
@@ -86,7 +143,8 @@ def dashboard(request):
     }
     return render(request,
                   'account/dashboard.html',context
-                  )
+                  )	
+
 
 def register(request):
     if request.method == 'POST':
